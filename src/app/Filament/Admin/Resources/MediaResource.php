@@ -25,7 +25,19 @@ class MediaResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\FileUpload::make('file')
+                    ->label('File Upload')
+                    ->image()
+                    ->directory('media-library')
+                    ->required(),
+
+                Forms\Components\TextInput::make('alt_text')
+                    ->label('Alt Text')
+                    ->required(),
+
+                Forms\Components\Textarea::make('caption')
+                    ->label('Caption/Description')
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -33,13 +45,26 @@ class MediaResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\ImageColumn::make('file')
+                    ->label('Thumbnail')
+                    ->disk('public')
+                    ->height(60),
+                Tables\Columns\TextColumn::make('file')
+                    ->label('Nama File')
+                    ->limit(30),
+                Tables\Columns\TextColumn::make('alt_text')
+                    ->label('Alt Text')
+                    ->limit(30),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Tanggal Unggah')
+                    ->dateTime('d M Y H:i'),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

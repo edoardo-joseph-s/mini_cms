@@ -46,9 +46,12 @@ class CategoryResource extends Resource
                     ->preload()
                     ->options(function (?Category $record) {
                         $query = Category::query();
+                        $excludeIds = [];
                         if ($record) {
-                            // Exclude the current record and all its descendants
-                            $excludeIds = array_merge([$record->id], $record->getAllChildrenIds());
+                            $childrenIds = $record->getAllChildrenIds();
+                            $excludeIds = is_array($childrenIds) ? array_merge([$record->id], $childrenIds) : [$record->id];
+                        }
+                        if (is_array($excludeIds) && count($excludeIds) > 0) {
                             $query->whereNotIn('id', $excludeIds);
                         }
                         return $query->pluck('name', 'id');

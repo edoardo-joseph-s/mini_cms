@@ -1,0 +1,32 @@
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <x-filament::stats-card
+        :stat="$userCount"
+        label="Users"
+        icon="heroicon-o-user"
+        color="primary"
+    />
+    <x-filament::stats-card
+        :stat="$postCount"
+        label="Posts"
+        icon="heroicon-o-document-text"
+        color="info"
+    />
+    <x-filament::stats-card
+        :stat="$commentCount"
+        label="Comments"
+        icon="heroicon-o-chat-bubble-left-right"
+        color="success"
+    />
+    <x-filament::stats-card
+        :stat="$subscriberCount"
+        label="Subscribers"
+        icon="heroicon-o-envelope"
+        color="warning"
+    />
+    <x-filament::stats-card
+        :stat="$contactCount"
+        label="Contact Messages"
+        icon="heroicon-o-inbox"
+        color="danger"
+    />
+</div>

@@ -16,6 +16,15 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory,HasRoles, Notifiable;
 
+    // ...existing code...
+
+    public function posts()
+    {
+        return $this->hasMany(\App\Models\Post::class, 'author_id');
+    }
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasFactory,HasRoles, Notifiable;
+
     /**
      * The attributes that are mass assignable.
      *

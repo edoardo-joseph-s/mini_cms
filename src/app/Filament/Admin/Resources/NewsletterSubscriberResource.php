@@ -25,7 +25,22 @@ class NewsletterSubscriberResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('email')
+                    ->label('Email Address')
+                    ->email()
+                    ->required(),
+                Forms\Components\Select::make('status')
+                    ->label('Status')
+                    ->options([
+                        'subscribed' => 'Subscribed',
+                        'unsubscribed' => 'Unsubscribed',
+                    ])
+                    ->default('subscribed')
+                    ->required(),
+                Forms\Components\DateTimePicker::make('subscribed_on')
+                    ->label('Subscribed On')
+                    ->default(now())
+                    ->required(),
             ]);
     }
 
@@ -33,18 +48,30 @@ class NewsletterSubscriberResource extends Resource
     {
         return $table
             ->columns([
-                //
-            ])
-            ->filters([
-                //
+                Tables\Columns\TextColumn::make('email')
+                    ->label('Email Address')
+                    ->searchable(),
+                Tables\Columns\BadgeColumn::make('status')
+                    ->label('Status')
+                    ->colors([
+                        'success' => 'subscribed',
+                        'danger' => 'unsubscribed',
+                    ]),
+                Tables\Columns\TextColumn::make('subscribed_on')
+                    ->label('Subscribed On')
+                    ->dateTime('d M Y H:i'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->headerActions([
+                Tables\Actions\ExportAction::make()
+                    ->label('Export to CSV'),
             ]);
     }
 

@@ -13,8 +13,26 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
+            $table->string('author_name')->nullable();
+            $table->string('author_email');
+            $table->text('content');
+            $table->enum('status', ['pending', 'approved', 'spam'])->default('pending');
+            $table->foreignId('post_id')->constrained('posts')->onDelete('cascade');
             $table->timestamps();
         });
+
+        // Seed initial data
+        DB::table('posts')->insert([
+            [
+                'title' => 'Contoh Post 1',
+                'slug' => 'contoh-post-1',
+                'content' => 'Isi post 1',
+                'status' => 'published',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            // tambahkan data lain sesuai kebutuhan
+        ]);
     }
 
     /**
